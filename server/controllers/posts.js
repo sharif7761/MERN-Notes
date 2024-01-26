@@ -31,7 +31,12 @@ export const createPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
+    const {id} = req.params
+    const post = req.body
+    if(!mongoose.Types.ObjectId.isValid(id)) res.status(404).send('No most with that id');
 
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {new: true})
+    res.status(200).json(updatedPost);
 }
 
 export const deletePost = async (req, res) => {
